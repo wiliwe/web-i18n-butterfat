@@ -1,0 +1,127 @@
+<!-- 
+Test file for Butterfat Internationalization(b28) JavaScript Library.
+
+For more explanation, please see the document 
+      "Internationalization(i18n) of Web Page_20140428.pdf"
+on  http://www.slideshare.net/wiliwe/
+
+William.L
+2014-04-29 
+-->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="/lang/b28n.js"></script>
+<script type="text/javascript">
+
+/* 
+   Set language table file name prefix and the folder containing language tables. 
+   Here, "main" is the prefix and "lang" is folder name.
+
+   In Butterfat, it will construct language table URL as this form:
+      http://DomainName:Port/FolderName/Prefix_LanguageType.xml
+   , "LanguageType" of language table file name is retrieved from
+   cookie attribute "language".
+   
+   Ex:
+      http://localhost:8888/lang/main_zhtw.xml
+*/
+Butterlate.setTextDomain("main","lang");
+
+function init()
+{
+	var eLang = document.Lang.langSelection;
+	var e = document.getElementById("chip");
+	e.innerHTML = _("translate chip");
+	
+	e = document.getElementById("computer");
+	e.innerHTML = _("translate computer");
+	
+	e = document.getElementById("program");
+	e.innerHTML = _("translate program");
+
+	/* For button. */
+	e = document.getElementById("translate");
+	e.value = _("translate apply");
+
+	if (document.cookie.length > 0)
+	{
+		var s = document.cookie.indexOf("language=");
+		var e = document.cookie.indexOf(";", s);
+		var lang = "en";
+		var i;
+
+		if (s != -1) {
+			if (e == -1)
+				lang = document.cookie.substring(s+9);
+			else
+				lang = document.cookie.substring(s+9, e);
+		}
+
+        //alert("Current Language: " + lang);
+
+		if (lang == "tw") {
+		   eLang[0].checked = true;
+		   eLang[1].checked = false;
+    	}
+		else if (lang == "en") {
+		   eLang[0].checked = false;
+		   eLang[1].checked = true;
+    	}
+	}	
+}
+
+function setLanguage()
+{
+  var radio = document.Lang.langSelection;
+  var langValue;
+  
+  for(var i=0; i<radio.length; i++)
+  {
+     if(radio[i].type == 'radio' && radio[i].checked)
+	 {
+	   langValue = radio[i].value;
+	   break;
+	 }
+  }
+  
+  document.cookie = "language="+langValue+"; path=/";  /* store new chosen language type into cookie. */
+
+  window.parent.location.reload();   /* Reload this web page */
+  
+  return true;
+}
+</script>
+</head>
+
+<body onload="init()">
+<form name="Lang">
+<table>
+  <tr>
+    <td>正體中文</td>
+    <td> <input name="langSelection" type="radio" value="tw"></td>
+  </tr>
+
+  <tr>
+    <td>English</td>
+    <td><input name="langSelection" type="radio" value="en" checked></td>
+  </tr>
+</table>
+
+<p>
+  <input id="translate" value="Translate" type="button" onclick="javascript:setLanguage()">
+</p>
+</form>
+
+<br>
+<hr>
+
+<label id="chip">Chip</label>
+<br>
+<label id="computer">Computer</label>
+<br>
+<label id="program">Program</label>
+<br>
+
+</body>
+</html>
