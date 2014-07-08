@@ -7,7 +7,7 @@ web-i18n-butterfat
 
 Purpose
 -------
-Android example codes for document :  
+Example web page codes for document :  
 ######_Internationalization(i18n) of Web Page_######
 <http://www.slideshare.net/wiliwe/internationalizationi18n-of-web-page>  
 
